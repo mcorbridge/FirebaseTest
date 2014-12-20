@@ -50,7 +50,12 @@ public class ReadActivity extends ActionBarActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View itemClicked, int position, long id) {
-                Player player = players.get(position);
+
+                CustomAdapter customAdapter = (CustomAdapter)parent.getAdapter();
+                Player player = customAdapter.getItem(position);
+
+
+                //Player player = players.get(position);
                 intent.putExtra("player",player);
                 startActivity(intent);
             }

@@ -12,7 +12,7 @@ import com.mcorbridge.firebasetest.vo.Player;
 
 import java.util.ArrayList;
 
-public class CustomAdapter extends ArrayAdapter<String> {
+public class CustomAdapter extends ArrayAdapter<Player> {
     private final Context context;
     private final ArrayList values;
 
