@@ -52,7 +52,6 @@ public class ReadActivity extends ActionBarActivity {
                 CustomAdapter customAdapter = (CustomAdapter)parent.getAdapter();
                 Player player = customAdapter.getItem(position);
 
-
                 //Player player = players.get(position);
                 intent.putExtra("player",player);
                 startActivity(intent);
