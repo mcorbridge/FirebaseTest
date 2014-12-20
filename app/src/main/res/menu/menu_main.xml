@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.mcorbridge.firebasetest.DeleteActivity">
+    <item android:id="@+id/action_home" android:title="@string/action_home"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_create" android:title="@string/action_create"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_delete" android:title="@string/action_delete"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_update" android:title="@string/action_update"
+        android:orderInCategory="100" app:showAsAction="never" />
+</menu>
