@@ -60,7 +60,6 @@ public class ReadActivity extends ActionBarActivity {
                 startActivity(intent);
             }
         });
-
     }
 
 
