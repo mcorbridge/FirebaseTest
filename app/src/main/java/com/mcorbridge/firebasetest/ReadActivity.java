@@ -61,15 +61,6 @@ public class ReadActivity extends ActionBarActivity {
             }
         });
 
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            public void onItemClick(AdapterView<?> parent, View itemClicked, int position, long id) {
-//                CustomAdapter customAdapter = (CustomAdapter)parent.getAdapter();
-//                System.out.println(customAdapter.getItem(position).toString());
-//                //intent.putExtra("player", player);
-//                //startActivity(intent);
-//            }
-//        });
-
     }
 
 
