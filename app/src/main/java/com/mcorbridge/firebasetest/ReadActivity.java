@@ -29,8 +29,6 @@ public class ReadActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read);
 
-
-
         savedInstanceState = getIntent().getExtras();
         players = (ArrayList<Player>)savedInstanceState.getSerializable("players");
         //ArrayList<String> leafs = (ArrayList<String>)savedInstanceState.getSerializable("leafs");
