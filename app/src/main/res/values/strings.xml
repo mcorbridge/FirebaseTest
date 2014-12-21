@@ -4,7 +4,7 @@
     <string name="app_name">Firebase+Bruins!</string>
     <string name="create">create</string>
     <string name="delete">delete</string>
-    <string name="title_activity_bruin_list">2014-15 Boston Bruins</string>
+    <string name="title_activity_bruin_list">2014-15 NHL</string>
     <string name="title_activity_create">Create Player</string>
     <string name="title_activity_delete">Delete Player</string>
     <string name="action_home">home</string>

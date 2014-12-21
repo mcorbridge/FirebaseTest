@@ -1,6 +1,13 @@
 package com.mcorbridge.firebasetest;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -36,6 +43,8 @@ public class MainActivity extends ActionBarActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         applicationModel = ApplicationModel.getInstance();
+
+        checkWiFiConnection();
     }
 
     public void doFirebaseBruins(View view){
@@ -107,6 +116,15 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu (Menu menu) {
+            menu.getItem(0).setEnabled(false);
+            menu.getItem(1).setEnabled(false);
+            menu.getItem(2).setEnabled(false);
+            menu.getItem(3).setEnabled(false);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -133,5 +151,46 @@ public class MainActivity extends ActionBarActivity {
                 System.out.println("action bar selected");
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void checkWiFiConnection(){
+        ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+        if (mWifi.isConnected()) {
+            String[] connectedInfo =  onReceive();
+            new AlertDialog.Builder(this)
+                    .setTitle("You are connected to: " + connectedInfo[0])
+                    .setMessage("with " + connectedInfo[1] + " bars")
+                    .setIcon(R.drawable.emo_im_tongue_sticking_out)
+                    .setPositiveButton("nice!", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // stub
+                        }
+                    })
+                    .show();
+        }else{
+            new AlertDialog.Builder(this)
+                    .setTitle("You are NOT connected to WiFi")
+                    .setMessage("(whatevah)")
+                    .setIcon(R.drawable.emo_im_sad)
+                    .setPositiveButton("meh...", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // stub
+                        }
+                    })
+                    .show();
+        }
+    }
+
+    public String[] onReceive() {
+        int numberOfLevels=5;
+        WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        int level= WifiManager.calculateSignalLevel(wifiInfo.getRssi(), numberOfLevels);
+        String[] a = new String[2];
+        a[0] = wifiInfo.getSSID();
+        a[1] = Integer.toString(level);
+        return a;
     }
 }

@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.firebase.client.Firebase;
 import com.mcorbridge.firebasetest.model.ApplicationModel;
@@ -20,6 +21,7 @@ public class DeleteActivity extends ActionBarActivity {
     Firebase firebase;
     Player player;
     ApplicationModel applicationModel;
+    String applicationTeam;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +29,9 @@ public class DeleteActivity extends ActionBarActivity {
         setContentView(R.layout.activity_delete);
 
         applicationModel = ApplicationModel.getInstance();
-        String applicationTeam = applicationModel.getApplicationTeam();
+        applicationTeam = applicationModel.getApplicationTeam();
+
+        setBackground();
 
         savedInstanceState = getIntent().getExtras();
         player = (Player)savedInstanceState.getSerializable("player");
@@ -67,6 +71,20 @@ public class DeleteActivity extends ActionBarActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void setBackground(){
+        RelativeLayout layout =(RelativeLayout)findViewById(R.id.background);
+        switch (applicationTeam)
+        {
+            case "bruins":
+                layout.setBackgroundResource(R.drawable.bruins);
+                break;
+
+            case "leafs":
+                layout.setBackgroundResource(R.drawable.leafs_bak);
+                break;
         }
     }
 
