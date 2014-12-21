@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.firebase.client.Firebase;
+import com.mcorbridge.firebasetest.model.ApplicationModel;
 import com.mcorbridge.firebasetest.vo.Player;
 
 import java.util.HashMap;
@@ -21,11 +22,15 @@ public class UpdateActivity extends ActionBarActivity {
     Player player;
     EditText editTextFname;
     EditText editTextLname;
+    ApplicationModel applicationModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update);
+
+        applicationModel = ApplicationModel.getInstance();
+        String applicationTeam = applicationModel.getApplicationTeam();
 
         editTextFname = (EditText) findViewById(R.id.fname);
         editTextLname = (EditText) findViewById(R.id.lname);
@@ -36,7 +41,7 @@ public class UpdateActivity extends ActionBarActivity {
         editTextFname.setText(player.getFname());
         editTextLname.setText(player.getLname());
 
-        firebase = new Firebase("https://burning-fire-2704.firebaseio.com/").child("teams/bruins/players");
+        firebase = new Firebase("https://burning-fire-2704.firebaseio.com/teams/" + applicationTeam + "/players");
 
 
     }

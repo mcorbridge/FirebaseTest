@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.firebase.client.Firebase;
+import com.mcorbridge.firebasetest.model.ApplicationModel;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,13 +19,17 @@ import java.util.UUID;
 public class CreateActivity extends ActionBarActivity {
 
     Firebase firebase;
+    ApplicationModel applicationModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
 
-        firebase = new Firebase("https://burning-fire-2704.firebaseio.com/").child("teams").child("bruins").child("players");
+        applicationModel = ApplicationModel.getInstance();
+        String applicationTeam = applicationModel.getApplicationTeam();
+
+        firebase = new Firebase("https://burning-fire-2704.firebaseio.com/teams/" + applicationTeam + "/players");
 
     }
 

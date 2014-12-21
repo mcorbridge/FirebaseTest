@@ -12,10 +12,10 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.mcorbridge.firebasetest.model.ApplicationModel;
 import com.mcorbridge.firebasetest.vo.Player;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -25,6 +25,7 @@ public class MainActivity extends ActionBarActivity {
     Intent intent;
     Firebase firebase;
     ValueEventListener valueEventListener;
+    ApplicationModel applicationModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +35,23 @@ public class MainActivity extends ActionBarActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-
-
+        applicationModel = ApplicationModel.getInstance();
     }
 
-    public void doFirebase(View view){
+    public void doFirebaseBruins(View view){
+        applicationModel.setApplicationTeam("bruins");
+        doFirebase();
+    }
+
+    public void doFirebaseLeafs(View view){
+        applicationModel.setApplicationTeam("leafs");
+        doFirebase();
+    }
+
+    public void doFirebase(){
         // Firebase !!
         Firebase.setAndroidContext(this);
-        firebase = new Firebase("https://burning-fire-2704.firebaseio.com/teams/bruins/players");
+        firebase = new Firebase("https://burning-fire-2704.firebaseio.com/teams/" + applicationModel.getApplicationTeam() + "/players");
 
         intent = new Intent(this, ReadActivity.class);
 
@@ -51,9 +61,7 @@ public class MainActivity extends ActionBarActivity {
                 ArrayList<Player> players = snapShotToArray(dataSnapshot);
                 intent.putExtra("players",players);
                 startActivity(intent);
-                //removeEventListener();
             }
-
             @Override
             public void onCancelled(FirebaseError firebaseError) {
                 System.out.println("******************************** the read failed ********************************");
@@ -80,14 +88,10 @@ public class MainActivity extends ActionBarActivity {
             if (m == null) {
                 System.out.println("fucking null!");
             } else {
-                Collection c = m.values();
-                Object[] names = c.toArray();
-                //String name = names[1] + " " + names[0] + "/" + pairs.getKey();
                 Player player = new Player();
-                player.setFname(names[1].toString());
-                player.setLname(names[0].toString());
+                player.setFname(m.get("fname"));
+                player.setLname(m.get("lname"));
                 player.setUUID(pairs.getKey().toString());
-                //bruins.add(name);
                 players.add(player);
             }
         }

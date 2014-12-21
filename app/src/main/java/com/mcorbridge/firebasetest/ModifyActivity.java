@@ -7,20 +7,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 import com.mcorbridge.firebasetest.vo.Player;
-
-import java.util.Collection;
-import java.util.Map;
 
 
 public class ModifyActivity extends ActionBarActivity {
 
     private Player player;
-    private String playerUUID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,21 +21,6 @@ public class ModifyActivity extends ActionBarActivity {
 
         savedInstanceState = getIntent().getExtras();
         player = (Player)savedInstanceState.getSerializable("player");
-
-        Firebase.setAndroidContext(this);
-        Firebase firebase = new Firebase("https://burning-fire-2704.firebaseio.com/");
-
-        firebase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                DataSnapshot players = snapshot.child("teams/bruins/players");
-            }
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                System.out.println("******************************** the read failed ********************************");
-                System.out.println(firebaseError.getMessage());
-            }
-        });
     }
 
 
@@ -81,22 +58,4 @@ public class ModifyActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-    private String getPlayerUUID(String selectedText, DataSnapshot players){
-        String playerUUID = null;
-        for (DataSnapshot child : players.getChildren()) {
-            Map<String, String> m = (Map<String, String>) child.getValue();
-            if (m == null) {
-                System.out.println("fucking null!");
-            } else {
-                Collection c = m.values();
-                Object[] names = c.toArray();
-                String name = names[1] + " " +names[0];
-                if(selectedText.equals(name)){
-                    playerUUID = child.getKey();
-                    break;
-                }
-            }
-        }
-        return playerUUID;
-    }
 }

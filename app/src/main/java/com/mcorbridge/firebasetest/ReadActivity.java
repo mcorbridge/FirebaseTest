@@ -31,16 +31,13 @@ public class ReadActivity extends ActionBarActivity {
 
         savedInstanceState = getIntent().getExtras();
         players = (ArrayList<Player>)savedInstanceState.getSerializable("players");
-        //ArrayList<String> leafs = (ArrayList<String>)savedInstanceState.getSerializable("leafs");
 
         ArrayAdapter<Player> itemsAdapter = new ArrayAdapter<Player>(this, android.R.layout.simple_list_item_1, players);
-        //ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, leafs);
 
         ListView listView = (ListView) findViewById(R.id.bruinList);
         listView.setAdapter(itemsAdapter);
 
         final CustomAdapter adapter = new CustomAdapter(this, players);
-        //final CustomAdapter adapter = new CustomAdapter(this, leafs);
 
         listView.setAdapter(adapter);
         intent = new Intent(this, ModifyActivity.class);
@@ -48,11 +45,8 @@ public class ReadActivity extends ActionBarActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View itemClicked, int position, long id) {
-
                 CustomAdapter customAdapter = (CustomAdapter)parent.getAdapter();
                 Player player = customAdapter.getItem(position);
-
-                //Player player = players.get(position);
                 intent.putExtra("player",player);
                 startActivity(intent);
             }

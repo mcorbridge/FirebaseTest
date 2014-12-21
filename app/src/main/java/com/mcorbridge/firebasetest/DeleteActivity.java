@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.firebase.client.Firebase;
+import com.mcorbridge.firebasetest.model.ApplicationModel;
 import com.mcorbridge.firebasetest.vo.Player;
 
 import java.util.HashMap;
@@ -18,15 +19,19 @@ public class DeleteActivity extends ActionBarActivity {
 
     Firebase firebase;
     Player player;
+    ApplicationModel applicationModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete);
 
+        applicationModel = ApplicationModel.getInstance();
+        String applicationTeam = applicationModel.getApplicationTeam();
+
         savedInstanceState = getIntent().getExtras();
         player = (Player)savedInstanceState.getSerializable("player");
-        firebase = new Firebase("https://burning-fire-2704.firebaseio.com/").child("teams/bruins/players");
+        firebase = new Firebase("https://burning-fire-2704.firebaseio.com/").child("teams/" + applicationTeam + "/players");
     }
 
 
