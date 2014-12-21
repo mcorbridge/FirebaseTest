@@ -2,9 +2,11 @@ package com.mcorbridge.firebasetest;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -22,41 +24,48 @@ public class MainActivity extends ActionBarActivity {
 
     Intent intent;
     Firebase firebase;
+    ValueEventListener valueEventListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+
+
+    }
+
+    public void doFirebase(View view){
         // Firebase !!
         Firebase.setAndroidContext(this);
-        firebase = new Firebase("https://burning-fire-2704.firebaseio.com/");
+        firebase = new Firebase("https://burning-fire-2704.firebaseio.com/teams/bruins/players");
 
         intent = new Intent(this, ReadActivity.class);
 
-        firebase.addValueEventListener(new ValueEventListener() {
+        valueEventListener = new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot snapshot) {
-
-            System.out.println(snapshot);
-
-            ArrayList<Player> players = snapShotToArray(snapshot.child("teams").child("bruins").child("players"));
-
-            //ArrayList<String> leafs = iterateDataSnapShot(snapshot.child("teams").child("leafs").child("players"));
-
-            intent.putExtra("players",players);
-
-            //intent.putExtra("leafs",leafs);
-
-            startActivity(intent);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<Player> players = snapShotToArray(dataSnapshot);
+                intent.putExtra("players",players);
+                startActivity(intent);
+                //removeEventListener();
             }
+
             @Override
             public void onCancelled(FirebaseError firebaseError) {
                 System.out.println("******************************** the read failed ********************************");
                 System.out.println(firebaseError.getMessage());
             }
-        });
+        };
 
+        firebase.addListenerForSingleValueEvent(valueEventListener);
+    }
+
+    private void removeEventListener(){
+        firebase.removeEventListener(valueEventListener);
     }
 
 
@@ -76,7 +85,7 @@ public class MainActivity extends ActionBarActivity {
                 //String name = names[1] + " " + names[0] + "/" + pairs.getKey();
                 Player player = new Player();
                 player.setFname(names[1].toString());
-                player.setLname( names[0].toString());
+                player.setLname(names[0].toString());
                 player.setUUID(pairs.getKey().toString());
                 //bruins.add(name);
                 players.add(player);
@@ -117,6 +126,7 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(intent);
                 return true;
             default:
+                System.out.println("action bar selected");
                 return super.onOptionsItemSelected(item);
         }
     }
