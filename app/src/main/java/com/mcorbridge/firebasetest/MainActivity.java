@@ -157,11 +157,11 @@ public class MainActivity extends ActionBarActivity {
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-        if (mWifi.isConnected()) {
+        if ( mWifi.isConnected() && !applicationModel.getWifiConnected() ) {
             String[] connectedInfo =  onReceive();
             new AlertDialog.Builder(this)
-                    .setTitle("You are connected to: " + connectedInfo[0])
-                    .setMessage("with " + connectedInfo[1] + " bars")
+                    .setTitle("Alert")
+                    .setMessage("You are connected to: " + connectedInfo[0] + " with " + connectedInfo[1] + " bars")
                     .setIcon(R.drawable.emo_im_tongue_sticking_out)
                     .setPositiveButton("nice!", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
@@ -169,17 +169,19 @@ public class MainActivity extends ActionBarActivity {
                         }
                     })
                     .show();
-        }else{
+            applicationModel.setWifiConnected(true);
+        }else if( !mWifi.isConnected() ){
             new AlertDialog.Builder(this)
-                    .setTitle("You are NOT connected to WiFi")
-                    .setMessage("(whatevah)")
+                    .setTitle("Alert")
+                    .setMessage("You are NOT connected to WiFi")
                     .setIcon(R.drawable.emo_im_sad)
-                    .setPositiveButton("meh...", new DialogInterface.OnClickListener() {
+                    .setPositiveButton("sux", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // stub
                         }
                     })
                     .show();
+            applicationModel.setWifiConnected(false);
         }
     }
 

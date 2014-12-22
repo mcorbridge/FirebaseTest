@@ -19,6 +19,17 @@ public final class ApplicationModel {
         this.applicationTeam = applicationTeam;
     }
 
-    public String applicationTeam;
+    private String applicationTeam;
+
     //-------------------------------------------
+
+    public boolean getWifiConnected() {
+        return isWifiConnected;
+    }
+
+    public void setWifiConnected(boolean isWifiConnected) {
+        this.isWifiConnected = isWifiConnected;
+    }
+
+    private boolean isWifiConnected;
 }
